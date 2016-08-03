@@ -23,8 +23,14 @@ function $() {
     pen.setLineWidth(1);
     pen.setLineCap('round');
 
+    pen.drawImg({
+    	src:'../img/ditun.png',
+    	// src:'../img/ditu.jpg',
+    	// imgWidth:300,
+    	// imgHeight:300
+    });
     // _drawCircle(pen, 80, 1);
-    drawTree(pen, lineArgs);
+    // drawTree(pen, lineArgs);
     // pen.drawLine(pointB);
     // drawCircle(pen, pointA, len, angle_m, 0);
     // pen.drawLine(line);

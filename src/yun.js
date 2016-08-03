@@ -118,47 +118,47 @@
         return this;
     }
 
-    var pro = myPen.prototype;
-    pro.constructor = {};
+    var proto = myPen.prototype;
+    proto.constructor = {};
 
-    /* ---   初始化设置 - start     --- */
-    pro.setPoint = function(point) {
+    // ---   初始化设置    --- 
+    proto.setPoint = function(point) {
         if (isPoint(point)) {
             this.point = point;
         }
     }
-    pro.getPoint = function() {
+    proto.getPoint = function() {
         return this.point;
     }
-    pro.setFillColor = function(color) {
+    proto.setFillColor = function(color) {
         this.fillStyle = color;
         this.context.fillStyle = this.fillStyle;
     }
-    pro.getFillColor = function() {
+    proto.getFillColor = function() {
         return this.fillStyle;
     }
-    pro.setColor = function(color) {
+    proto.setColor = function(color) {
         this.strokeStyle = color;
         this.context.strokeStyle = this.strokeStyle;
     }
-    pro.getColor = function() {
+    proto.getColor = function() {
         return this.strokeStyle;
     }
-    pro.setLineWidth = function(width) {
+    proto.setLineWidth = function(width) {
         this.lineWidth = width;
         this.context.lineWidth = this.lineWidth;
     }
-    pro.getLineWidth = function() {
+    proto.getLineWidth = function() {
         return this.lineWidth;
     }
-    pro.setLineCap = function(dis) {
+    proto.setLineCap = function(dis) {
         this.lineCap = dis;
         this.context.lineCap = this.lineCap;
     }
-    pro.getLineCap = function() {
+    proto.getLineCap = function() {
         return this.lineCap;
     }
-    pro.setCenter = function(point) {
+    proto.setCenter = function(point) {
         if (isPoint(point)) {
             this.context.translate(point.x, point.y);
             var point = new myPoint({
@@ -168,17 +168,15 @@
             this.setPoint(point);
         }
     }
-    pro.setCoordinate = function(description) {
-            this.context.transform();
-        }
-        /* ---   初始化设置 - end       --- */
+    proto.setCoordinate = function(description) {
+        this.context.transform();
+    }
 
 
-    /* ---   图形绘制 - start     --- */
-    /*
-     * 圆心 ，半径
-     */
-    pro.drawCircle = function(point, r) {
+    // ---   图形绘制    --- 
+
+    // 圆心 ，半径
+    proto.drawCircle = function(point, r) {
         var ctx = this.context;
         point = this.point;
         if (arguments.length == 1 && isNumber(arguments[0])) {
@@ -194,10 +192,10 @@
         ctx.stroke();
     }
 
-    /*
-     * 起点 ，终点
-     */
-    pro.drawLine = function(pointStart, pointEnd) {
+    // 重构
+    // 线
+    // 起点 ，终点
+    proto.drawLine = function(pointStart, pointEnd) {
         if (arguments.length == 1) {
             if (arguments[0] instanceof myPoint) {
                 pointStart = this.point;
@@ -224,49 +222,80 @@
         }
     }
 
-    /*
-     * 起点 ，对角点
-     */
-    pro.drawRec = function(start, end) {
-            var len = arguments.length;
-            var ctx = this.context;
-            if (len == 1 && isPoint(start)) {
-                end = start;
+    // 起点 ，对角点
+    proto.drawRec = function(start, end) {
+        var len = arguments.length;
+        var ctx = this.context;
+        if (len == 1 && isPoint(start)) {
+            end = start;
+            start = this.point;
+        } else if (len == 2) {
+            if (isPoint(start) && isPoint(end)) {
+                start = start;
+                end = end;
+            } else if (isNumber(start), isNumber(end)) {
+                var endN = {};
+                endN.x = start;
+                endN.y = end;
+                end = endN;
                 start = this.point;
-            } else if (len == 2) {
-                if (isPoint(start) && isPoint(end)) {
-                    start = start;
-                    end = end;
-                } else if (isNumber(start), isNumber(end)) {
-                    var endN = {};
-                    endN.x = start;
-                    endN.y = end;
-                    end = endN;
-                    start = this.point;
-                } else {
-                    return;
-                }
             } else {
                 return;
             }
-            ctx.strokeRect(start.x, start.y, end.x - start.x, end.y - start.y);
+        } else {
+            return;
         }
-        /* ---   图形绘制 - end      --- */
+        ctx.strokeRect(start.x, start.y, end.x - start.x, end.y - start.y);
+    }
+
+    // 画图
+    // 图片地址 ， 位置点 ， 宽度 ， 高度
+    proto.drawImg = function(options) {
+    	var self = this;
+        var myImg = new Image();
+        // var img = document.createElement('img');
+        myImg.src = options.src;
+
+        options = {
+            src: options.src || '',
+            cutStart: options.cutStart || { x: 0, y: 0 },
+            cutWidth: options.cutWidth || myImg.width,
+            curHeight: options.curHeight || myImg.height,
+            setStart: options.setStart || { x: 0, y: 0 },
+            imgWidth: options.imgWidth || myImg.width,
+            imgHeight: options.imgHeight || myImg.height,
+        };
+        console.log(myImg);
+        myImg.onload = function(){
+        	console.log(myImg);
+        	var ctx = self.context;
+	        ctx.drawImage(
+	            myImg,
+	            options.cutStart.x,
+	            options.cutStart.y,
+	            options.cutWidth,
+	            options.curHeight,
+	            options.setStart.x,
+	            options.setStart.y,
+	            options.imgWidth,
+	            options.imgHeight
+	        );
+	        ctx.stroke();
+	        ctx.restore();
+    	};
+    }
 
 
-    /* ---   画布清除 - start    --- */
-    /*
-     * 起点，宽度，高度
-     */
-    pro.clean = function(point, width, height) {
-            if (isPoint(point) && isNumber(width) && isNumber(height)) {
-                var ctx = this.context;
-                ctx.clearRect(point.x, point.y, width, height);
-            } else {
-                return;
-            }
+    // --- 画布清除 --- 
+    //起点，宽度，高度 
+    proto.clean = function(point, width, height) {
+        if (isPoint(point) && isNumber(width) && isNumber(height)) {
+            var ctx = this.context;
+            ctx.clearRect(point.x, point.y, width, height);
+        } else {
+            return;
         }
-        /* ---   画布清除 - end      --- */
+    }
 
     win.Yun = myDrawType;
 })(window, document)
