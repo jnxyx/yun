@@ -83,8 +83,13 @@ function drawTree(pen, lineArgs) {
         len: _len,
         angle: downAngle
     };
-    drawTree(pen, upLineArgs);
-    drawTree(pen, downLineArgs);
+    setTimeout(function(){
+	    drawTree(pen, upLineArgs);
+	    drawTree(pen, downLineArgs);
+    },500);
+
+    // drawTree(pen, upLineArgs);
+    // drawTree(pen, downLineArgs);
 }
 
 function drawCircle(pen, start, len, angle_m, share) {
