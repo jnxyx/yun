@@ -112,8 +112,8 @@
             y: 0
         };
 
-        //		this.fillStyle = '#000000';
-        //		this.strokeStyle = '#000000';
+        //      this.fillStyle = '#000000';
+        //      this.strokeStyle = '#000000';
 
         return this;
     }
@@ -251,7 +251,7 @@
     // 画图
     // 图片地址 ， 位置点 ， 宽度 ， 高度
     proto.drawImg = function(options) {
-    	var self = this;
+        var self = this;
         var myImg = new Image();
         // var img = document.createElement('img');
         myImg.src = options.src;
@@ -266,23 +266,23 @@
             imgHeight: options.imgHeight || myImg.height,
         };
         console.log(myImg);
-        myImg.onload = function(){
-        	console.log(myImg);
-        	var ctx = self.context;
-	        ctx.drawImage(
-	            myImg,
-	            options.cutStart.x,
-	            options.cutStart.y,
-	            options.cutWidth,
-	            options.curHeight,
-	            options.setStart.x,
-	            options.setStart.y,
-	            options.imgWidth,
-	            options.imgHeight
-	        );
-	        ctx.stroke();
-	        ctx.restore();
-    	};
+        myImg.onload = function() {
+            console.log(myImg);
+            var ctx = self.context;
+            ctx.drawImage(
+                myImg,
+                options.cutStart.x,
+                options.cutStart.y,
+                options.cutWidth,
+                options.curHeight,
+                options.setStart.x,
+                options.setStart.y,
+                options.imgWidth,
+                options.imgHeight
+            );
+            ctx.stroke();
+            ctx.restore();
+        };
     }
 
 
