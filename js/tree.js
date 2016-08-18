@@ -1,5 +1,5 @@
 window.onload = $;
-var i = 0;
+
 var greenInt = 00;
 
 function $() {
