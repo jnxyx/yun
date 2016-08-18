@@ -750,8 +750,8 @@
             return new myLine(start, len, angle);
         },
 
-        Pen = myDrawType.Pen = function(canvasId) {
-            return new myPen(canvasId);
+        Pen = myDrawType.Pen = function(context) {
+            return new myPen(context);
         };
 
     function myPoint(x, y) {
@@ -795,10 +795,9 @@
         return this;
     }
 
-    function myPen(canvasId) {
-        canvasId = canvasId || 'canvas_d';
-        this.canvas = getCanvasElement(canvasId);
-        this.context = this.canvas.getContext("2d");
+    function myPen(context) {
+        this.canvas = context.canvas;
+        this.context = context;
         this.point = {
             x: 0,
             y: 0
