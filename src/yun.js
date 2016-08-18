@@ -806,60 +806,66 @@
         return this;
     }
 
-    var proto = myPen.prototype;
-    proto.constructor = {};
-
-    // ---   初始化设置    --- 
-    proto.setPoint = function(point) {
-        if (isPoint(point)) {
-            this.point = point;
+    var proto = myPen.prototype = {
+        constructor: {},
+        setPoint: function(point) {
+            if (isPoint(point)) {
+                this.point = point;
+            }
+        },
+        getPoint: function() {
+            return this.point;
+        },
+        setFillColor: function(color) {
+            this.fillStyle = color;
+            this.context.fillStyle = this.fillStyle;
+        },
+        getFillColor: function() {
+            return this.fillStyle;
+        },
+        setColor: function(color) {
+            this.strokeStyle = color;
+            this.context.strokeStyle = this.strokeStyle;
+        },
+        getColor: function() {
+            return this.strokeStyle;
+        },
+        setLineWidth: function(width) {
+            this.lineWidth = width;
+            this.context.lineWidth = this.lineWidth;
+        },
+        getLineWidth: function() {
+            return this.lineWidth;
+        },
+        setLineCap: function(dis) {
+            this.lineCap = dis;
+            this.context.lineCap = this.lineCap;
+        },
+        getLineCap: function() {
+            return this.lineCap;
+        },
+        setCenter: function(point) {
+            if (isPoint(point)) {
+                this.context.translate(point.x, point.y);
+                var point = new myPoint({
+                    x: 0,
+                    y: 0
+                });
+                this.setPoint(point);
+            }
+        },
+        setCoordinate: function(description) {
+            this.context.transform();
+        },
+        clean: function(point, width, height) {
+            if (isPoint(point) && isNumber(width) && isNumber(height)) {
+                var ctx = this.context;
+                ctx.clearRect(point.x, point.y, width, height);
+            } else {
+                return;
+            }
         }
     }
-    proto.getPoint = function() {
-        return this.point;
-    }
-    proto.setFillColor = function(color) {
-        this.fillStyle = color;
-        this.context.fillStyle = this.fillStyle;
-    }
-    proto.getFillColor = function() {
-        return this.fillStyle;
-    }
-    proto.setColor = function(color) {
-        this.strokeStyle = color;
-        this.context.strokeStyle = this.strokeStyle;
-    }
-    proto.getColor = function() {
-        return this.strokeStyle;
-    }
-    proto.setLineWidth = function(width) {
-        this.lineWidth = width;
-        this.context.lineWidth = this.lineWidth;
-    }
-    proto.getLineWidth = function() {
-        return this.lineWidth;
-    }
-    proto.setLineCap = function(dis) {
-        this.lineCap = dis;
-        this.context.lineCap = this.lineCap;
-    }
-    proto.getLineCap = function() {
-        return this.lineCap;
-    }
-    proto.setCenter = function(point) {
-        if (isPoint(point)) {
-            this.context.translate(point.x, point.y);
-            var point = new myPoint({
-                x: 0,
-                y: 0
-            });
-            this.setPoint(point);
-        }
-    }
-    proto.setCoordinate = function(description) {
-        this.context.transform();
-    }
-
 
     // ---   图形绘制    --- 
 
@@ -971,18 +977,6 @@
             ctx.stroke();
             ctx.restore();
         };
-    }
-
-
-    // --- 画布清除 --- 
-    //起点，宽度，高度 
-    proto.clean = function(point, width, height) {
-        if (isPoint(point) && isNumber(width) && isNumber(height)) {
-            var ctx = this.context;
-            ctx.clearRect(point.x, point.y, width, height);
-        } else {
-            return;
-        }
     }
 
     global.Yun = yun;
