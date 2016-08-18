@@ -1,6 +1,7 @@
-;
-(function(win, doc) {
+;(function() {
     "use strict";
+
+    
 
     var point = {
         x: 0,
@@ -8,7 +9,7 @@
     }
 
     function getCanvasElement(canvasId) {
-        return doc.getElementById(canvasId);
+        return this.document.getElementById(canvasId);
     }
 
     function isNull(obj) {
@@ -90,19 +91,6 @@
 
         return this;
     }
-
-    var myDrawType = {
-        Point: function(x, y) {
-            return new myPoint(x, y);
-        },
-        Line: function(start, len, angle) {
-            return new myLine(start, len, angle);
-        },
-        Pen: function(canvasId) {
-            return new myPen(canvasId);
-        }
-    }
-
     function myPen(canvasId) {
         canvasId = canvasId || 'canvas_d';
         this.canvas = getCanvasElement(canvasId);
@@ -117,6 +105,19 @@
 
         return this;
     }
+
+    var myDrawType = {
+        Point: function(x, y) {
+            return new myPoint(x, y);
+        },
+        Line: function(start, len, angle) {
+            return new myLine(start, len, angle);
+        },
+        Pen: function(canvasId) {
+            return new myPen(canvasId);
+        }
+    }
+
 
     var proto = myPen.prototype;
     proto.constructor = {};
@@ -297,5 +298,5 @@
         }
     }
 
-    win.Yun = myDrawType;
-})(window, document)
+    this.Yun = myDrawType;
+}).call(this);
