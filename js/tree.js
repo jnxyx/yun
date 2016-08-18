@@ -1,4 +1,6 @@
 window.onload = $;
+var i = 0;
+var greenInt = 00;
 
 function $() {
     var ctx = document.getElementById("canvas_d").getContext("2d");
@@ -14,7 +16,7 @@ function $() {
     };
     var origin = Yun.types.Point(500, 300);
     pen.setCenter(origin);
-    pen.setColor('grey');
+    pen.setColor('#00' + greenInt + '00');
 
     drawTree(pen, lineArgs);
 }
@@ -53,6 +55,16 @@ function drawTree(pen, lineArgs) {
         len: _len,
         angle: downAngle
     };
+
+
+    greenInt = greenInt + 0.03;
+
+    var color = '#00' + parseInt(greenInt).toString(16) + '00';
+
+    console.log(color);
+
+    pen.setColor(color);
+
     setTimeout(function() {
         drawTree(pen, upLineArgs);
         drawTree(pen, downLineArgs);
