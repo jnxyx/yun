@@ -1,8 +1,9 @@
 window.onload = $;
 
 function $() {
-    var pen = new Yun.Pen('canvas_d');
-    var pointB = new Yun.Point(0, 80);
+    var ctx = document.getElementById("canvas_d").getContext("2d");
+    var pen = Yun.types.Pen(ctx);
+    var pointB = Yun.types.Point(0, 80);
     var len = 100 * Math.sqrt(2);
     var angle_m = Math.PI / 180;
 
@@ -11,7 +12,7 @@ function $() {
         len: len,
         angle: 270 * angle_m
     };
-    var origin = new Yun.Point(500, 300);
+    var origin = Yun.types.Point(500, 300);
     pen.setCenter(origin);
     pen.setColor('grey');
 
@@ -27,7 +28,7 @@ function drawTree(pen, lineArgs) {
     var point = args.point;
     var len = args.len;
     var angle = args.angle;
-    var line = new Yun.Line(point, len, angle);
+    var line = Yun.types.Line(point, len, angle);
     pen.drawLine(line);
 
     var _len = 3 * len / 4;
@@ -52,13 +53,11 @@ function drawTree(pen, lineArgs) {
         len: _len,
         angle: downAngle
     };
-    setTimeout(function(){
-	    drawTree(pen, upLineArgs);
-	    drawTree(pen, downLineArgs);
-    },500);
+    setTimeout(function() {
+        drawTree(pen, upLineArgs);
+        drawTree(pen, downLineArgs);
+    }, 500);
 
     // drawTree(pen, upLineArgs);
     // drawTree(pen, downLineArgs);
 }
-
-

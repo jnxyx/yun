@@ -1,9 +1,10 @@
 window.onload = $;
 
 function $() {
-    var pen = new Yun.Pen('canvas_d');
+    var ctx = document.getElementById("canvas_d").getContext("2d");
+    var pen = Yun.types.Pen(ctx);
 
-    var origin = new Yun.Point(500, 300);
+    var origin = Yun.types.Point(500, 300);
     pen.setCenter(origin);
     pen.setColor('grey');
 

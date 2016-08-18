@@ -1,12 +1,13 @@
 window.onload = $;
 
 function $() {
-    var pen = new Yun.Pen('canvas_d');
-    var pointA = new Yun.Point(0, 0);
+    var ctx = document.getElementById("canvas_d").getContext("2d");
+    var pen = Yun.types.Pen(ctx);
+    var pointA = Yun.types.Point(0, 0);
     var len = 100 * Math.sqrt(2);
     var angle_m = Math.PI / 180;
 
-    var origin = new Yun.Point(500, 300);
+    var origin = Yun.types.Point(500, 300);
     pen.setCenter(origin);
     pen.setColor('grey');
 
@@ -17,7 +18,7 @@ function $() {
 
 function drawCircle(pen, start, len, angle_m, share) {
     clean.call(pen);
-    var line = new Yun.Line(start, len, share * angle_m);
+    var line = Yun.types.Line(start, len, share * angle_m);
     if (share < 3600000) {
         pen.drawLine(line);
         share += 5;
