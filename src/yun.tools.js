@@ -5,7 +5,7 @@
     var global = this,
         previous = global.yun;
 
-    var tools = yun.tools;
+    var tools = previous.tools;
 
     var each = tools.each = function(loopable, callback, self) {
             var additionalArgs = Array.prototype.slice.call(arguments, 3);
@@ -698,4 +698,5 @@
             ctx.quadraticCurveTo(x, y, x + radius, y);
             ctx.closePath();
         };
+        
 }).call(this)
