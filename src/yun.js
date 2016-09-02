@@ -6,9 +6,11 @@
         previous = global.yun;
 
     var yun = function(context) {
+
         var yun = this;
         this.canvas = context.canvas;
         this.ctx = context;
+
         return this;
     };
 
@@ -20,6 +22,7 @@
             x: 0,
             y: 0
         },
+
         isNull = tools.isNull = function(obj) {
             if (typeof obj === 'undefined') {
                 return true;
@@ -30,9 +33,11 @@
             }
             return false;
         },
+
         isNumber = tools.isNumber = function(num) {
             return 'number' === typeof num;
         },
+
         isPoint = tools.isPoint = function(point) {
             if (isNull(point)) {
                 Error('the argument is not a point');
@@ -45,6 +50,7 @@
             }
             return true;
         },
+
         Error = tools.Error = function(ex) {
             throw (ex);
         };
@@ -62,7 +68,9 @@
         };
 
     function myPoint(x, y) {
+
         var args_len = arguments.length;
+
         if (args_len == 1 && !isNull(arguments[0]) && isPoint(arguments[0])) {
             x = arguments[0].x;
             y = arguments[0].y;
@@ -74,6 +82,7 @@
         } else {
             Error('arguments error');
         }
+
         this.x = x;
         this.y = y;
 
@@ -81,12 +90,16 @@
     }
 
     function myLine(start, len, angle) {
+
         var pointStart = start,
             pointEnd;
+
         var arg_len = arguments.length;
+
         if (!isPoint(arguments[0])) {
             Error(arguments[0].toString() + 'is not a point');
         }
+
         if (arg_len == 2 && isPoint(arguments[1])) {
             pointEnd = arguments[1];
         } else if (arg_len == 3 && isNumber(len) && isNumber(angle)) {
@@ -96,6 +109,7 @@
         } else {
             Error('arguments error');
         }
+
         this.pointStart = pointStart;
         this.pointEnd = pointEnd;
 
@@ -114,43 +128,55 @@
     }
 
     var proto = myPen.prototype = {
+
         constructor: {},
+
         setPoint: function(point) {
             if (isPoint(point)) {
                 this.point = point;
             }
         },
+
         getPoint: function() {
             return this.point;
         },
+
         setFillColor: function(color) {
             this.fillStyle = color;
             this.context.fillStyle = this.fillStyle;
         },
+
         getFillColor: function() {
             return this.fillStyle;
         },
+
         setColor: function(color) {
             this.strokeStyle = color;
             this.context.strokeStyle = this.strokeStyle;
         },
+
         getColor: function() {
             return this.strokeStyle;
         },
+
         setLineWidth: function(width) {
             this.lineWidth = width;
             this.context.lineWidth = this.lineWidth;
         },
+
         getLineWidth: function() {
             return this.lineWidth;
         },
+
         setLineCap: function(dis) {
             this.lineCap = dis;
             this.context.lineCap = this.lineCap;
         },
+
         getLineCap: function() {
             return this.lineCap;
         },
+
         setCenter: function(point) {
             if (isPoint(point)) {
                 this.context.translate(point.x, point.y);
@@ -161,9 +187,11 @@
                 this.setPoint(point);
             }
         },
+
         setCoordinate: function(description) {
             this.context.transform();
         },
+
         clean: function(point, width, height) {
             if (isPoint(point) && isNumber(width) && isNumber(height)) {
                 var ctx = this.context;
@@ -172,14 +200,17 @@
                 return;
             }
         }
+
     }
 
     // ---   图形绘制    --- 
 
     // 圆心 ，半径
     proto.drawCircle = function(point, r) {
+
         var ctx = this.context;
         point = this.point;
+
         if (arguments.length == 1 && isNumber(arguments[0])) {
             r = arguments[0];
         } else if (arguments.length == 2 && isPoint(arguments[0]) && isNumber(arguments[1])) {
@@ -188,6 +219,7 @@
         } else {
             return;
         }
+
         ctx.beginPath();
         ctx.arc(point.x, point.y, r, 0, 2 * Math.PI);
         ctx.stroke();
@@ -197,7 +229,9 @@
     // 线
     // 起点 ，终点
     proto.drawLine = function(pointStart, pointEnd) {
+
         if (arguments.length == 1) {
+
             if (arguments[0] instanceof myPoint) {
                 pointStart = this.point;
                 pointEnd = arguments[0];
@@ -207,13 +241,18 @@
             } else {
                 Error('drawline fail');
             }
+
         } else if (arguments.length == 2) {
+
             pointStart = arguments[0];
             pointEnd = arguments[1];
         } else {
+
             Error('drawline fail');
         }
+
         if (isPoint(pointStart) && isPoint(pointEnd)) {
+
             var ctx = this.context;
             ctx.beginPath();
             ctx.moveTo(pointStart.x, pointStart.y);
@@ -227,6 +266,7 @@
     proto.drawRec = function(start, end) {
         var len = arguments.length;
         var ctx = this.context;
+
         if (len == 1 && isPoint(start)) {
             end = start;
             start = this.point;
@@ -246,6 +286,7 @@
         } else {
             return;
         }
+
         ctx.strokeRect(start.x, start.y, end.x - start.x, end.y - start.y);
     }
 
@@ -266,7 +307,9 @@
             imgWidth: options.imgWidth || myImg.width,
             imgHeight: options.imgHeight || myImg.height,
         };
+
         console.log(myImg);
+        
         myImg.onload = function() {
             console.log(myImg);
             var ctx = self.context;
