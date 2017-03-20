@@ -15,8 +15,25 @@ function $() {
         controlPoint2 = { x: 20, y: 20 },
         startPoint = { x: 0, y: 0 },
         endPoint = { x: 20, y: 200 };
-    pen.quadraticCurveTo(controlPoint, startPoint, endPoint);
-    pen.bezierCurveTo(controlPoint, controlPoint2, startPoint, endPoint);
+    // pen.quadraticCurveTo(controlPoint, startPoint, endPoint);
+    // pen.bezierCurveTo(controlPoint, controlPoint2, startPoint, endPoint);
+
+    drawBesier(pen);
+}
+
+function drawBesier(pen) {
+    var controlPoint = { x: 0, y: 20 },
+        startPoint = { x: 0, y: 0 },
+        endPoint = { x: 20, y: 0 };
+
+    for (var i = 0; i <= 10; i++) {
+        pen.quadraticCurveTo(controlPoint, startPoint, endPoint);
+        startPoint.x = endPoint.x;
+        startPoint.y = endPoint.y;
+        endPoint.x += 20;
+        controlPoint.x += 20;
+        controlPoint.y = -controlPoint.y;
+    }
 }
 
 function clean() {
