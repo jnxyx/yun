@@ -11,10 +11,12 @@ function $() {
     pen.setCenter(origin);
     pen.setColor('grey');
 
-    var controlPoint = { x: 20, y: 0 },
+    var controlPoint = { x: 200, y: 0 },
+        controlPoint2 = { x: 20, y: 20 },
         startPoint = { x: 0, y: 0 },
         endPoint = { x: 20, y: 200 };
     pen.quadraticCurveTo(controlPoint, startPoint, endPoint);
+    pen.bezierCurveTo(controlPoint, controlPoint2, startPoint, endPoint);
 }
 
 function clean() {
