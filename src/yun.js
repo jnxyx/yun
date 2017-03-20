@@ -290,6 +290,26 @@
         ctx.strokeRect(start.x, start.y, end.x - start.x, end.y - start.y);
     }
 
+    // 二次贝塞尔曲线 
+    // 控制点、起点、终点
+    proto.quadraticCurveTo = function(controlPoint, startPoint, endPoint) {
+        var ctx = this.context;
+        ctx.beginPath();
+        ctx.moveTo(startPoint.x, startPoint.y);
+        ctx.quadraticCurveTo(controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
+        ctx.stroke();
+    }
+
+    // 三次贝塞尔曲线 
+    // 控制点1、控制点2、起点、终点
+    proto.bezierCurveTo = function(controlPoint1, controlPoint2, startPoint, endPoint) {
+        var ctx = this.context;
+        ctx.beginPath();
+        ctx.moveTo(startPoint.x, startPoint.y);
+        ctx.quadraticCurveTo(controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, endPoint.x, endPoint.y);
+        ctx.stroke();
+    }
+
     // 画图
     // 图片地址 ， 位置点 ， 宽度 ， 高度
     proto.drawImg = function(options) {
@@ -309,7 +329,7 @@
         };
 
         console.log(myImg);
-        
+
         myImg.onload = function() {
             console.log(myImg);
             var ctx = self.context;
@@ -331,5 +351,5 @@
 
     global.Yun = yun;
 
-    
+
 }).call(this);
