@@ -37,7 +37,7 @@ var leaf = {
     },
     getStart: (function() {
         // 变量还未赋值
-        console.log(window.leaf);
+        console.log(window.leaf); //undefined
         return 1;
     })()
 };
