@@ -64,11 +64,11 @@
                 var item = wordArray[i],
                     angle;
                 if (i % 2 == 0) {
-                    angle = 10 * Math.random();
-                    self.drawLeaf({ x: -160 + (i / 2) * 5, y: -100 - (i / 2) * 50 }, angle, item);
+                    angle = 30 * Math.random();
+                    self.drawLeaf({ x: self.width * (1 - self.treeHeight) - (i / 2) * 5, y: -100 - ((i - 1) / 2) * 60 }, angle, item);
                 } else {
-                    angle = -10 * Math.random();
-                    self.drawLeaf({ x: 160 - ((i - 1) / 2) * 5, y: -100 - ((i - 1) / 2) * 50 }, angle, item);
+                    angle = 180 - 30 * Math.random();
+                    self.drawLeaf({ x: -self.width * (1 - self.treeHeight) + ((i - 1) / 2) * 5, y: -100 - (i / 2) * 60 }, angle, item);
                 }
             }
         },
@@ -78,25 +78,18 @@
                 ctx = self.ctx;
             ctx.strokeStyle = self.growColor() || self.leafColor;
             ctx.fillStyle = self.growColor() || self.leafColor;
+            ctx.translate(root.x, root.y);
             ctx.rotate(angle * Math.PI / 180);
             ctx.beginPath();
-            ctx.moveTo(root.x, root.y);
-            if (angle > 0) {
-                ctx.quadraticCurveTo(-20 + (leafWidth + root.x), 20 + (root.y + leafWidth / 4), leafWidth + root.x, root.y);
-                ctx.quadraticCurveTo(-20 + (leafWidth + root.x), -20 + (root.y - leafWidth / 4), root.x, root.y);
-            } else {
-                ctx.quadraticCurveTo(20 - (leafWidth - root.x), -20 - (-root.y + leafWidth / 4), -leafWidth + root.x, root.y);
-                ctx.quadraticCurveTo(20 - (leafWidth - root.x), 20 - (-root.y - leafWidth / 4), root.x, root.y);
-            }
+            ctx.moveTo(0, 0);
+            ctx.quadraticCurveTo(leafWidth / 4, leafWidth / 2, leafWidth, 0);
+            ctx.quadraticCurveTo(leafWidth / 4, -leafWidth / 2, 0, 0);
             ctx.stroke();
             ctx.fill();
             ctx.fillStyle = "#fff";
-            if (angle > 0) {
-                ctx.fillText(word, root.x + 10, root.y + 2);
-            } else {
-                ctx.fillText(word, -leafWidth + root.x + 10, root.y + 2);
-            }
+            ctx.fillText(word, 10, 2);
             ctx.rotate(-angle * Math.PI / 180);
+            ctx.translate(-root.x, -root.y);
         },
         growColor: function() {
             var color = this.color;
